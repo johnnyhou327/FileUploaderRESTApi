@@ -8,10 +8,8 @@ import com.johnny.entity.FileMetaData;
 
 public interface StoreFileService {
 	
-	public void store(MultipartFile file);
-	
-	List<FileMetaData> loadAllFileInfo();
-	
-	Path load(String fileName);
+	public void store(MultipartFile file);	
+	List<FileMetaData> loadAllFileInfo();	
+	FileMetaData loadFileInfoById(Integer fileId);
 	
 }

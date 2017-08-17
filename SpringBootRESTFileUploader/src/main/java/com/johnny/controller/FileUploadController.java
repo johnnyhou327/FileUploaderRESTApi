@@ -41,8 +41,8 @@ public class FileUploadController {
 	
 	@GetMapping(value="/files/{fileId}")
 	@ResponseBody
-	public ResponseEntity<Resource> serveFile(@PathVariable Integer fileId) {
-		return null;
+	public FileMetaData findUploadedFileInfoById(@PathVariable Integer fileId) {
+		return storeFileService.loadFileInfoById(fileId);
 	}
 	
 	@PostMapping(value="/")

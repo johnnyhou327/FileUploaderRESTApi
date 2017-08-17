@@ -62,8 +62,8 @@ public class StoreFileServiceImpl implements StoreFileService{
 	}
 
 	@Override
-	public Path load(String fileName) {
-		return null;
+	public FileMetaData loadFileInfoById(Integer fileId) {
+		return mdDAO.loadMetaDataById(fileId);
 	}
 
 }
