@@ -55,12 +55,14 @@ public class StoreFileServiceImpl implements StoreFileService{
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<FileMetaData> loadAllFileInfo() {
 //		return mdDAO.loadAllMetaData();
 		return metaDataRepository.findAll();
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public FileMetaData loadFileInfoById(Integer fileId) {
 //		return mdDAO.loadMetaDataById(fileId);
 		return metaDataRepository.findOne(fileId);
