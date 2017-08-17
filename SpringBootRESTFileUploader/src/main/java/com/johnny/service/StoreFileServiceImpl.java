@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.johnny.dao.MetaDataDAO;
+import com.johnny.dao.MetaDataRepository;
 import com.johnny.entity.FileMetaData;
 import com.johnny.exception.FileUploadException;
 
@@ -23,12 +24,9 @@ public class StoreFileServiceImpl implements StoreFileService{
 	// hard coded the location for the uploaded files, but can be refined using DI if needed
 	private final Path rootLocation = Paths.get("uploaded_files");
 	
-	private MetaDataDAO mdDAO;
-	
 	@Autowired
-	public void setMdDAO(MetaDataDAO mdDAO) {
-		this.mdDAO = mdDAO;
-	};
+//	MetaDataDAO mdDAO;
+	MetaDataRepository metaDataRepository;
 
 	@Override
 	@Transactional
@@ -48,7 +46,8 @@ public class StoreFileServiceImpl implements StoreFileService{
 				throw new FileUploadException("File to upload is empty. File name: " + fileName);
 			}						
 			Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
-			mdDAO.save(fmd);
+//			mdDAO.save(fmd);
+			metaDataRepository.save(fmd);
 		} 
 		catch (IOException e) {
 			throw new FileUploadException("Uploading file failed. File name or target folder doesn't exist. File name: " + fileName);
@@ -57,12 +56,14 @@ public class StoreFileServiceImpl implements StoreFileService{
 
 	@Override
 	public List<FileMetaData> loadAllFileInfo() {
-		return mdDAO.loadAllMetaData();
+//		return mdDAO.loadAllMetaData();
+		return metaDataRepository.findAll();
 	}
 
 	@Override
 	public FileMetaData loadFileInfoById(Integer fileId) {
-		return mdDAO.loadMetaDataById(fileId);
+//		return mdDAO.loadMetaDataById(fileId);
+		return metaDataRepository.findOne(fileId);
 	}
 
 }

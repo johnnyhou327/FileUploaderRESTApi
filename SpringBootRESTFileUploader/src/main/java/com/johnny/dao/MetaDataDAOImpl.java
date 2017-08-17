@@ -17,6 +17,7 @@ public class MetaDataDAOImpl implements MetaDataDAO{
 
 	@Override
 	public void save(FileMetaData fileMetaData) {
+		System.out.println(fileMetaData);
 		em.persist(fileMetaData);
 	}
 

@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="file")
+@Table(name="file_meta_data")
 public class FileMetaData implements Serializable{
 	
 	private static final long serialVersionUID = -7555889831201598505L;
