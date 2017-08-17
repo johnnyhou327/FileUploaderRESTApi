@@ -1,13 +1,12 @@
 package com.johnny.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.stream.Stream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +37,7 @@ public class StoreFileServiceImpl implements StoreFileService{
 		Long currentTime = System.currentTimeMillis();
 		String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
 		String fileName = currentTime + "_" + originalFileName;
-		String fileLocation = this.rootLocation.toString() + originalFileName;
+		String fileLocation = this.rootLocation.toString() + File.separator + fileName;
 		FileMetaData fmd = new FileMetaData();
 		fmd.setFileName(fileName);
 		fmd.setFileSize(file.getSize());
