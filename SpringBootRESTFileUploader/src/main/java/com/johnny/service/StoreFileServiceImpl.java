@@ -25,7 +25,6 @@ public class StoreFileServiceImpl implements StoreFileService{
 	private final Path rootLocation = Paths.get("uploaded_files");
 	
 	@Autowired
-//	MetaDataDAO mdDAO;
 	MetaDataRepository metaDataRepository;
 
 	@Override
@@ -48,10 +47,13 @@ public class StoreFileServiceImpl implements StoreFileService{
 			}
 			
 			if (!new File(this.rootLocation.toString()).exists()) {
-				throw new FileUploadException("Target folder doesn't exist when uploading file: " + fileName);
+				Files.createDirectories(Paths.get(this.rootLocation.toString()));
 			}
+			
+//			if (!new File(this.rootLocation.toString()).exists()) {
+//				throw new FileUploadException("Target folder doesn't exist when uploading file: " + fileName);
+//			}
 			Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
-//			mdDAO.save(fmd);
 			metaDataRepository.save(fmd);
 		} 
 		catch (IOException e) {
@@ -62,14 +64,12 @@ public class StoreFileServiceImpl implements StoreFileService{
 	@Override
 	@Transactional(readOnly=true)
 	public List<FileMetaData> loadAllFileInfo() {
-//		return mdDAO.loadAllMetaData();
 		return metaDataRepository.findAll();
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public FileMetaData loadFileInfoById(Integer fileId) {
-//		return mdDAO.loadMetaDataById(fileId);
 		return metaDataRepository.findOne(fileId);
 	}
 
