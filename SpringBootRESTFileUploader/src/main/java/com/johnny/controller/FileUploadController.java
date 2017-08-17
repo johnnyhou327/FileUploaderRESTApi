@@ -24,17 +24,13 @@ public class FileUploadController {
 	private final StoreFileService storeFileService;
 	
 	// constructor DI
-	@Autowired 
+	@Autowired
 	public FileUploadController(StoreFileService storeFileService) {
 		this.storeFileService = storeFileService;
 	}
 	
-	@GetMapping(value="/")
-	public String home() {
-		return "upload";
-	}
-	
 	@GetMapping(value="/files")
+	@ResponseBody
 	public List<FileMetaData> listUploadedFiles() throws IOException {
 		return storeFileService.loadAllFileInfo();
 	}
@@ -45,16 +41,16 @@ public class FileUploadController {
 		return storeFileService.loadFileInfoById(fileId);
 	}
 	
-	@PostMapping(value="/")
-	public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
-		storeFileService.store(file);
-		redirectAttributes.addFlashAttribute("message", file.getOriginalFilename() + " is uploaded successfully!");
-		return "upload";
+	@PostMapping(value="/files")
+	@ResponseBody
+	public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("metaData") String description) {
+		storeFileService.store(file, description);
+		return "File is uploaded successfully!";
 	}
 	
 	@ExceptionHandler(FileUploadException.class)
 	public String fileUploadException(Exception e) {
-		return "File upload error: " + e.getLocalizedMessage();
+		return "File upload error: \n" + e.getLocalizedMessage();
 	}
 
 }

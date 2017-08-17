@@ -28,6 +28,9 @@ public class FileMetaData implements Serializable{
 	
 	@Column(name="file_location")
 	private String fileLocation;
+	
+	@Column(name="file_description")
+	private String fileDescription;
 
 	public Integer getFileId() {
 		return fileId;
@@ -59,6 +62,14 @@ public class FileMetaData implements Serializable{
 
 	public void setFileLocation(String fileLocation) {
 		this.fileLocation = fileLocation;
+	}
+
+	public String getFileDescription() {
+		return fileDescription;
+	}
+
+	public void setFileDescription(String fileDescription) {
+		this.fileDescription = fileDescription;
 	}
 	
 }

@@ -30,21 +30,26 @@ public class StoreFileServiceImpl implements StoreFileService{
 
 	@Override
 	@Transactional
-	public void store(MultipartFile file) {
+	public void store(MultipartFile file, String fileDescription) {
 		
 		Long currentTime = System.currentTimeMillis();
 		String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
 		String fileName = currentTime + "_" + originalFileName;
-		String fileLocation = this.rootLocation.toString() + File.separator + fileName;
+		String fileLocation = this.rootLocation.toString() + fileName;
 		FileMetaData fmd = new FileMetaData();
 		fmd.setFileName(fileName);
 		fmd.setFileSize(file.getSize());
 		fmd.setFileLocation(fileLocation);
+		fmd.setFileDescription(fileDescription);
 		
 		try {
 			if (file.isEmpty()) {
 				throw new FileUploadException("File to upload is empty. File name: " + fileName);
-			}						
+			}
+			
+			if (!new File(this.rootLocation.toString()).exists()) {
+				throw new FileUploadException("Target folder doesn't exist when uploading file: " + fileName);
+			}
 			Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
 //			mdDAO.save(fmd);
 			metaDataRepository.save(fmd);
