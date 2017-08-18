@@ -1,0 +1,5 @@
+FileUploaderRESTApi is a demo file uploading REST web service built using Spring Boot. This app allows the client to upload files and retrieve file infos.
+Since this is a just demo, only a few simple urls and HTTP verbs are mapped. The basic functionalities of this app are listed below:
+ - Allow users to upload a file together with a text field called "description" as the metadata. The uploaded file will be renamed and stored in the server-side file system (here in this app, a folder called "uploaded_files" in the root directory of the app).
+ - The metadata uploaded are saved in an in-memory database (used Apache Derby here). While app running, users can retrieve the basic file infos such as file name, file size, file description etc. from the in-memory database.
+ - A few testing codes of the service layer are also included in this solution
